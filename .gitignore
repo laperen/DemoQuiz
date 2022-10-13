@@ -3,3 +3,6 @@
 .vsconfig
 *.csproj
 Library/
+Logs\
+obj\
+UserSettings\
