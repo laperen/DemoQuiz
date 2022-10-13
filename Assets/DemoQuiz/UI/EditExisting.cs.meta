@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 407a66b711a00ac4884be03cbe4c5fbe
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - content: {instanceID: 0}
+  - btnprefab: {fileID: 5838607537252209597, guid: 2e44bfa1afce7a04cbb95daf7327f757, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
