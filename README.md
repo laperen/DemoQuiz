@@ -14,6 +14,8 @@ Justifications:
 
 In question editing, the checkboxes for setting an option to be an answer, does not automatically uncheck all other options in the question. This was left as-is intentionally, since there is no guarantee questions will always only have one correct answer in its options.
 
-![multioption](https://user-images.githubusercontent.com/43179300/195528444-bd07ff27-8ea4-4ffd-b2d2-99cb157f17b2.png)
+![multioption](https://user-images.githubusercontent.com/43179300/195548800-5d010d12-739c-4328-ae50-5a1e2f18b3de.png)
 
-Localization has been planned for but not implemented. Within the Quiz class, text is consolidated into one property. Objects meant to reflect text, such as questions and options, use integer keys to grab the relevant text from the property. In the event localization is needed, this property can be accessed to extract the text into CSV files for localization. The intention is to have these language CSV files placed in the individual quiz folders in Streaming Assets, and have objects meant to reflect text access those language CSVs instead of the text in the Quiz class.
+Questions have an additional weighted score. In the event certain questions are meant to be harder than others, this can be represented in the results through this weighted score.
+
+Localization has been planned for but only implemented partially. Within the Quiz class, text is consolidated into one property. Objects meant to reflect text, such as questions and options, use integer keys to grab the relevant text from the property. In the event localization is needed, this property can be accessed to extract the text into CSV files for localization. The intention is to have these language CSV files placed in the individual quiz folders in Streaming Assets, and have objects meant to reflect text access those language CSVs instead of the text in the Quiz class.
