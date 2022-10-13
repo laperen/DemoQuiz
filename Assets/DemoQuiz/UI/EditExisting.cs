@@ -49,6 +49,9 @@ namespace DemoQuiz {
 		private void DeleteQuiz(string path) {
 			if (!Directory.Exists(path)) { return; }
 			Directory.Delete(path, true);
+			if (File.Exists($"{path}.meta")) {
+				File.Delete($"{path}.meta");
+			}
 			RenderQuizList();
 		}
 		private void PreviewFromList(string path) {

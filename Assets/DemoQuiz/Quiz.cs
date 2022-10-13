@@ -7,8 +7,10 @@ namespace DemoQuiz {
 		public int questiontextkey;
 		public List<int> optionkeys;
 		public List<int> answers;
+		public int weight;
 
 		public Question(int textkey) {
+			weight = 1;
 			questiontextkey = textkey;
 			optionkeys = new List<int>();
 			answers = new List<int>();
@@ -19,7 +21,6 @@ namespace DemoQuiz {
 		public SavableDictionary<int, string> text;
 		public int quiznamekey;
 		public List<Question> questions;
-		//public List<int> scorelevels;
 
 		public int AddText(string txt) {
 			int newkey = text.runningIndex;
@@ -29,7 +30,6 @@ namespace DemoQuiz {
 		public Quiz(string quizname) {
 			text = new SavableDictionary<int, string>();
 			questions = new List<Question>();
-			//scorelevels = new List<int>();
 			quiznamekey = AddText(quizname);
 		}
 		public void NewQuestion(string questiontext) {
@@ -49,6 +49,9 @@ namespace DemoQuiz {
 		public void RemoveQuestionOption(int qindex, int oindex) {
 			text.Remove(questions[qindex].optionkeys[oindex]);
 			questions[qindex].optionkeys.RemoveAt(oindex);
+			if (questions[qindex].answers.Contains(oindex)) {
+				questions[qindex].answers.Remove(oindex);
+			}
 		}
 	}
 }

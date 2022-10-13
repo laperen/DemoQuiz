@@ -10,6 +10,7 @@ namespace DemoQuiz {
 
 		public StringEvt QuestionTextEvt;
 		public StringEvt ResultTextEvt;
+		public StringEvt WeightedResultEvt;
 		private int currquestion;
 		private int[] answers;
 
@@ -75,6 +76,18 @@ namespace DemoQuiz {
 				}
 			}
 			ResultTextEvt.Invoke($"{correct}/{answers.Length}");
+		}
+		public void EvaluateWeightedResult() {
+			int score = 0;
+			int fullscore = 0;
+			for (int i = 0, max = answers.Length; i < max; i++) {
+				Question q = DataHolder.tempquiz.questions[i];
+				if (q.answers.Contains(answers[i])) {
+					score += q.weight;
+				}
+				fullscore += q.weight;
+			}
+			WeightedResultEvt.Invoke($"{score}/{fullscore}");
 		}
 	}
 }

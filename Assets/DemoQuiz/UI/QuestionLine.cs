@@ -8,9 +8,11 @@ namespace DemoQuiz {
 		private Action<string> questiontextchange;
 		private Action addoption;
 		private Action deleteq;
+		private Action<string> setweight;
 
 		public StringEvt QuestionIndexEvt;
 		public StringEvt QuestionNameEvt;
+		public StringEvt QuestionWeightEvt;
 
 		public void ChangeQuestionText(string value) {
 			if (null == questiontextchange) { return; }
@@ -24,6 +26,11 @@ namespace DemoQuiz {
 			if (null == deleteq) { return; }
 			deleteq.Invoke();
 		}
+		public void ChangeQuestionWeight(string value) {
+			if (null == setweight) { return; }
+			setweight.Invoke(value);
+		}
+		
 		public void RenderQuestion(int qindex) {
 			Question q = DataHolder.tempquiz.questions[qindex];
 			string qtext = DataHolder.tempquiz.text.GetValueByKey(q.questiontextkey);
@@ -39,8 +46,15 @@ namespace DemoQuiz {
 				DataHolder.tempquiz.RemoveQuestion(qindex);
 				QuizCreateHandler.instance.RenderQuestions();
 			};
+			setweight = (string value) => {
+				int val = DataHolder.tempquiz.questions[qindex].weight;
+				if (int.TryParse(value, out val)) {
+					DataHolder.tempquiz.questions[qindex].weight = val;
+				}
+			};
 			RenderOptions(qindex);
 			QuestionIndexEvt.Invoke($"{qindex + 1}");
+			QuestionWeightEvt.Invoke($"{q.weight}");
 		}
 		public void RenderOptions(int qindex) {
 			Question q = DataHolder.tempquiz.questions[qindex];
