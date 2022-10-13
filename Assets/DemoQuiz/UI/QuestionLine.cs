@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DemoQuiz {
@@ -10,6 +9,7 @@ namespace DemoQuiz {
 		private Action addoption;
 		private Action deleteq;
 
+		public StringEvt QuestionIndexEvt;
 		public StringEvt QuestionNameEvt;
 
 		public void ChangeQuestionText(string value) {
@@ -24,27 +24,28 @@ namespace DemoQuiz {
 			if (null == deleteq) { return; }
 			deleteq.Invoke();
 		}
-		public void RenderQuestion(int qindex, Quiz tempquiz) {
-			Question q = tempquiz.questions[qindex];
-			string qtext = tempquiz.text.GetValueByKey(q.questiontextkey);
+		public void RenderQuestion(int qindex) {
+			Question q = DataHolder.tempquiz.questions[qindex];
+			string qtext = DataHolder.tempquiz.text.GetValueByKey(q.questiontextkey);
 			QuestionNameEvt.Invoke(qtext);
 			questiontextchange = (string value) => {
-				tempquiz.text.SetValue(q.questiontextkey, value);
+				DataHolder.tempquiz.text.SetValue(q.questiontextkey, value);
 			};
 			addoption = () => {
-				tempquiz.AddQuestionOption(qindex, "New Option");
-				RenderOptions(qindex, tempquiz);
+				DataHolder.tempquiz.AddQuestionOption(qindex, "New Option");
+				RenderOptions(qindex);
 			};
 			deleteq = () => {
-				tempquiz.RemoveQuestion(qindex);
+				DataHolder.tempquiz.RemoveQuestion(qindex);
 				QuizCreateHandler.instance.RenderQuestions();
 			};
-			RenderOptions(qindex, tempquiz);
+			RenderOptions(qindex);
+			QuestionIndexEvt.Invoke($"{qindex + 1}");
 		}
-		public void RenderOptions(int qindex, Quiz tempquiz) {
-			Question q = tempquiz.questions[qindex];
+		public void RenderOptions(int qindex) {
+			Question q = DataHolder.tempquiz.questions[qindex];
 			for (int o = 0, omax = q.optionkeys.Count; o < omax; o++) {
-				string otext = tempquiz.text.GetValueByKey(q.optionkeys[o]);
+				string otext = DataHolder.tempquiz.text.GetValueByKey(q.optionkeys[o]);
 				Transform child = null;
 				if (optionscontent.childCount > o) {
 					child = optionscontent.GetChild(o);
@@ -53,9 +54,10 @@ namespace DemoQuiz {
 				if (!child) {
 					child = Instantiate(optionprefab, optionscontent).transform;
 				}
-				child.GetComponent<QuestionOptionLine>().RendederQuestionOption(o, qindex, tempquiz, () => {
-					tempquiz.RemoveQuestionOption(qindex, o);
-					RenderOptions(qindex, tempquiz);
+				int temp = o;
+				child.GetComponent<QuestionOptionLine>().RendederQuestionOption(temp, qindex, () => {
+					DataHolder.tempquiz.RemoveQuestionOption(qindex, temp);
+					RenderOptions(qindex);
 				});
 			}
 			if (optionscontent.childCount >= q.optionkeys.Count) {

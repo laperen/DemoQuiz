@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DemoQuiz {
@@ -23,21 +22,20 @@ namespace DemoQuiz {
 			if (null == dodelete) { return; }
 			dodelete.Invoke();
 		}
-		public void RendederQuestionOption(int oindex, int qindex, Quiz tempquiz, Action deleteaction) {
-			//TODO render option line, while allowing inputfields and delete buttons to change question
-			string optiontext = tempquiz.text.GetValueByKey(tempquiz.questions[qindex].optionkeys[oindex]);
+		public void RendederQuestionOption(int oindex, int qindex, Action deleteaction) {
+			string optiontext = DataHolder.tempquiz.text.GetValueByKey(DataHolder.tempquiz.questions[qindex].optionkeys[oindex]);
 			OptionTextEvt.Invoke(optiontext);
 			optiontextchange = (string value) => {
-				tempquiz.text.SetValue(tempquiz.questions[qindex].optionkeys[oindex], value);
+				DataHolder.tempquiz.text.SetValue(DataHolder.tempquiz.questions[qindex].optionkeys[oindex], value);
 			};
-			bool hasans = tempquiz.questions[qindex].answers.Contains(oindex);
+			bool hasans = DataHolder.tempquiz.questions[qindex].answers.Contains(oindex);
 			AnswerEvt.Invoke(hasans);
 			setans = (bool value) => {
 				if (!value && hasans) {
-					tempquiz.questions[qindex].answers.Remove(oindex);
+					DataHolder.tempquiz.questions[qindex].answers.Remove(oindex);
 				}
 				if (value && !hasans) {
-					tempquiz.questions[qindex].answers.Add(oindex);
+					DataHolder.tempquiz.questions[qindex].answers.Add(oindex);
 				}
 			};
 			dodelete = deleteaction;

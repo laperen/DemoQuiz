@@ -1,1 +1,1 @@
-{"text":{"keys":[0,1,2,3],"values":["New Quiz","question text fdsafg","New Optionggg","New Option dsaads"],"runningIndex":4},"quiznamekey":0,"questions":[{"questiontextkey":1,"optionkeys":[2,3],"answers":[1]}]}
+{"text":{"keys":[0,1,2,3,5,6,7],"values":["New Quiz","Question 1","Wrong option","Right option","Question 2","Wrong option","Right Option"],"runningIndex":10},"quiznamekey":0,"questions":[{"questiontextkey":1,"optionkeys":[2,3],"answers":[1]},{"questiontextkey":5,"optionkeys":[6,7],"answers":[1]}]}

@@ -1,24 +1,25 @@
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace DemoQuiz {
     public class EditExisting : MonoBehaviour {
         public RectTransform content;
         public GameObject btnprefab;
 
-		private string basepath = Path.Combine(Application.streamingAssetsPath, "QuizFiles");
-
 		private void Awake() {
 			RenderQuizList();
 		}
+		public void CreateNewQuiz() {
+			DataHolder.CreateNewQuiz();
+		}
 		private void RenderQuizList() {
-			if (!Directory.Exists(basepath)) {
-				Directory.CreateDirectory(basepath);
+			if (!Directory.Exists(DataHolder.basepath)) {
+				Directory.CreateDirectory(DataHolder.basepath);
 			}
-			string[] quizpaths = Directory.GetDirectories(basepath);
+			string[] quizpaths = Directory.GetDirectories(DataHolder.basepath);
 			for (int i = 0, max = quizpaths.Length; i < max; i++) {
 				string quizname = Path.GetFileName(quizpaths[i]);
 				string[] files = Directory.GetFiles(quizpaths[i], "*.json");
@@ -32,7 +33,7 @@ namespace DemoQuiz {
 				}
 				StringStore ss = child.GetComponent<StringStore>();
 				ss.links = new List<StringEventLink>();
-				ss.AddLink(files[0], QuizCreateHandler.LoadQuiz);
+				ss.AddLink(files[0], DataHolder.LoadQuiz);
 				ss.AddLink(quizpaths[i], DeleteQuiz);
 				ss.AddLink(files[0], PreviewFromList);
 				Text nametxt = child.GetChild(0).GetChild(0).GetComponent<Text>();
@@ -51,8 +52,10 @@ namespace DemoQuiz {
 			RenderQuizList();
 		}
 		private void PreviewFromList(string path) {
-			Quiz quizdata = JsonUtility.FromJson<Quiz>(File.ReadAllText(path));
-			//run preview
+			if (!File.Exists(path)) { return; }
+			DataHolder.tempquiz = JsonUtility.FromJson<Quiz>(File.ReadAllText(path));
+			DataHolder.currbackmenu = 0;
+			SceneManager.LoadScene(2);
 		}
 	}
 }

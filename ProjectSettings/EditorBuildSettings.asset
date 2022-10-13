@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/DemoQuiz/Scenes/EditingScene.unity
     guid: 878828cd09234eb468a5bbb8145519e2
+  - enabled: 1
+    path: Assets/DemoQuiz/Scenes/PreviewScene.unity
+    guid: 17b2348df48a1454d85ed3beee1a4358
   m_configObjects: {}
